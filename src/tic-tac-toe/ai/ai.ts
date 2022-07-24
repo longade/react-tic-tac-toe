@@ -1,41 +1,12 @@
-const calculateWinner = (squares: any) => {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
-    }
-  }
-  return null;
-}
+import { calculateWinner, isBoardFilled } from "../util/util";
 
-const isBoardFilled = (squares: any) => {
-  for (let i = 0; i < squares.length; i++) {
-    if (!squares[i]) {
-      return false;
-    }
-  }
-  return true;
-}
-
-export const findBestSquare = (originalSquares: string[][], player: string) => {
-
-  const squares = originalSquares.flat();
+export const findBestSquare = (squares: string[], player: string) => {
 
   // 'player' is the maximizing player
   // 'opponent' is the minimizing player
   const opponent = player === 'X' ? 'O' : 'X';
 
-  const minimax = (squares: any, isMax: boolean) => {
+  const minimax = (squares: string[], isMax: boolean) => {
     const winner = calculateWinner(squares);
 
     // If player wins, score is +1
@@ -48,7 +19,7 @@ export const findBestSquare = (originalSquares: string[][], player: string) => {
     if (isBoardFilled(squares)) return { square: -1, score: 0 };
 
     // Initialize 'best'. If isMax, we want to maximize score, and minimize otherwise.
-    const best: any = { square: -1, score: isMax ? -1000 : 1000 };
+    const best: {square: number, score: number} = { square: -1, score: isMax ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER };
 
     // Loop through every square on the board
     for (let i = 0; i < squares.length; i++) {

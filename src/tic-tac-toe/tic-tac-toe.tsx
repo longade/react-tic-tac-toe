@@ -7,8 +7,8 @@ const TicTacToe = () => {
 
   const [gameType, setGameType] = React.useState<string>('');
 
-  const selectGameType = (event: any) => {
-    setGameType(event.target.value)
+  const selectGameType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setGameType(event.target.value);
   }
 
   return (
